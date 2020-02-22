@@ -4,9 +4,4 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\Dtos\" />
-    <Folder Include="Interactors\" />
-  </ItemGroup>
-
 </Project>
