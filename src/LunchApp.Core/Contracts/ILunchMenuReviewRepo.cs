@@ -7,6 +7,10 @@ namespace LunchApp.Core.Contracts
 {
     public interface ILunchMenuReviewRepo
     {
+        LunchMenuReview GetById(Guid Id);
+
+        IList<LunchMenuReview> GetAllMenuReviews(int menuId);
+
         void SaveUpdate(LunchMenuReview lunchMenu);
     }
 }

@@ -7,8 +7,7 @@ namespace LunchApp.Core.Contracts
 {
     public interface ILunchMenuRepo
     {
-        LunchMenu GetById(int id);
-        LunchMenu GetByDate(DateTime date);
+        LunchMenu GetById(int id);      
         void SaveUpdate(LunchMenu lunchMenu);
     }
 }

@@ -4,7 +4,9 @@ using System.Text;
 
 namespace LunchApp.Core.Contracts
 {
-    public interface ILunchDishReviewRepo
+    public interface IMenu
     {
+        DateTime Date { get; set; }
+        string[] Course { get; set; }
     }
 }

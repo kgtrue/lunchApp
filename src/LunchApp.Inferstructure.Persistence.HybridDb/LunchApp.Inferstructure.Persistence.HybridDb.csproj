@@ -1,8 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="HybridDb">
+      <HintPath>..\..\lib\HybridDb\netstandard2.1\HybridDb.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LunchApp.Core\LunchApp.Core.csproj" />

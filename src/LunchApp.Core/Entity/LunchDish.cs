@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace LunchApp.Core.Entity
 {
     public class LunchDish
@@ -19,5 +19,10 @@ namespace LunchApp.Core.Entity
         public int Id { get; private set; }
         public string Name { get; private set; }
         public LunchMenu LunchMenu { get; private set; }
+
+        public double LunchDishRating => LunchMenu.LunchMenuReviews
+            .SelectMany(x => x.LunchMenuDishReviews
+            .Where(d => d.LunchDish.Id == this.Id))
+            .Average(x => x.ReviewScore);  
     }
 }

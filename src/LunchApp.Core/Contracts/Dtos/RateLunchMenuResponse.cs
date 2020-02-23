@@ -6,7 +6,7 @@ namespace LunchApp.Core.Contracts.Dtos
 {
     public class RateLunchMenuResponse : BaseResponse
     {
-        public RateLunchMenuResponse(bool result, List<string> meseages) : base(result, meseages)
+        public RateLunchMenuResponse(bool result, List<string> messages) : base(result, messages)
         {
 
         }

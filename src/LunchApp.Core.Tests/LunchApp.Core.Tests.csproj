@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LunchApp.Core\LunchApp.Core.csproj" />
+    <ProjectReference Include="..\LunchApp.Inferstructure.External.Menu.Api\LunchApp.Inferstructure.External.Menu.Api.csproj" />
   </ItemGroup>
 
 </Project>

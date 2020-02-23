@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq:
+using System.Linq;
 namespace LunchApp.Core.Entity
 {
     public class LunchMenu
@@ -10,19 +10,21 @@ namespace LunchApp.Core.Entity
         {
             Date = date;
             LunchDishes = new List<LunchDish>();
+            LunchMenuReviews = new List<LunchMenuReview>();
             Id = date.GetHashCode();
         }
 
         public int Id { get; private set; }
         public DateTime Date { get; private set; }
-        public List<LunchDish> LunchDishes { get; private set; }
-
-        public LunchDish AddLunchMenuDish(string name)
+        public IList<LunchDish> LunchDishes { get; private set; }
+        public IList<LunchMenuReview> LunchMenuReviews { get; private set; }
+        public bool AddLunchMenuDish(string name)
         {
             var dish = new LunchDish(this, name);
-            if(LunchDishes.Any( l=> l.Id == dish.Id)) { throw new Exception("Dublicate key"); }
+            if (LunchDishes.Any(l => l.Id == dish.Id)) { return false; }
             LunchDishes.Add(dish);
-            return dish;
+            return true;
         }
+        public double MenuRating => LunchMenuReviews.Average(x => x.MenuReviewScore);
     }
 }

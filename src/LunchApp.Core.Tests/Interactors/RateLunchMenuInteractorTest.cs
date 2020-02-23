@@ -19,7 +19,7 @@ namespace LunchApp.Core.Tests.Interactors
             lunchMenuReviewRepo.Setup(x => x.SaveUpdate(It.IsAny<LunchMenuReview>())).Throws<LunchMenureviewSaveUpdateException>();
         }
 
-        public void TestRateLunchMenuInteractorFail(int menuId, List<(int DishId, int ReviewScore)> reviews)
+        public void TestRateLunchMenuInteractorFail(int menuId, List<(int DishId, uint ReviewScore)> reviews)
         {
             var interactor = new RateLunchMenuInteractor(lunchMenuRepo.Object, lunchMenuReviewRepo.Object);
             var response = interactor.Handle(new Contracts.Dtos.RateLunchMenuRequest(menuId ,reviews));

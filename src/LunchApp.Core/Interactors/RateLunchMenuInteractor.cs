@@ -4,7 +4,7 @@ using LunchApp.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace LunchApp.Core.Interactors
 {
     public class RateLunchMenuInteractor : IRequestHandler<RateLunchMenuRequest, RateLunchMenuResponse>
@@ -21,15 +21,19 @@ namespace LunchApp.Core.Interactors
         {
             var lunchMenu = lunchMenuRepo.GetById(message.MenuId);
             var lunchMenuReviwew = new LunchMenuReview(lunchMenu);
-            message.ReviewScores.ForEach(lmr =>
+
+            var errors = new List<string>();
+
+            message.ReviewScores.ToList().ForEach(lmr =>
             {
-                lunchMenuReviwew.AddReview(lmr.DishId, lmr.ReviewScore);
+                if (!lunchMenuReviwew.AddReview(lmr.DishId, lmr.ReviewScore))
+                {
+                    errors.Add($"unable to register review for {lunchMenu.LunchDishes.FirstOrDefault(ld => ld.Id == lmr.DishId).Name }");
+                }
             });
 
-            var errors = new List<string>(); 
-
             lunchMenuReviewRepo.SaveUpdate(lunchMenuReviwew);
-            return new RateLunchMenuResponse();
+            return new RateLunchMenuResponse(!errors.Any(), errors);
         }
     }
 }

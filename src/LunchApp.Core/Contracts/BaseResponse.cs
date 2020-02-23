@@ -6,14 +6,14 @@ namespace LunchApp.Core.Contracts
 {
     public abstract class BaseResponse
     {
-        public BaseResponse(bool result, IList<string> meseages)
+        public BaseResponse(bool result, IList<string> messages)
         {
-            _ = meseages ?? throw new NullReferenceException("Meseages must not be null ");
+            _ = messages ?? throw new NullReferenceException("Meseages must not be null ");
             Result = result;
-            Meseages = meseages; 
+            Messages = messages; 
         }
 
         public bool Result { get; private set;}
-        public  IList<string> Meseages { get; private set; }
+        public  IList<string> Messages { get; private set; }
     }
 }
