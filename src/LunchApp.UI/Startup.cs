@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HybridDb;
+using LunchApp.Core.Contracts;
+using LunchApp.Inferstructure.External.Menu.Api;
+using LunchApp.Inferstructure.Persistence.HybridDb.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,7 +27,21 @@ namespace LunchApp.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();         
+            services.AddControllersWithViews();
+            services.AddSingleton<IDocumentStore, DocumentStore>(service =>
+                DocumentStore.Create(config =>
+                {
+                    config.UseConnectionString(Configuration["ConnectionString"]);
+                },
+                true
+                )
+           );
+            services.AddHttpClient<ILunchMenuLookupRepo, LunchMenuLookupRepo>(service =>
+            {
+                service.BaseAddress = new Uri(Configuration["MenuApiUrl"]);
+            });
+            services.AddScoped<ILunchMenuRepo, LunchMenuRepo>();
+            services.AddScoped<ILunchMenuReviewRepo, LunchMenuReviewRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

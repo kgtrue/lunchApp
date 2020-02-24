@@ -6,9 +6,11 @@ namespace LunchApp.Core.Contracts.Dtos
 {
     public class CreateLunchMenuResponse : BaseResponse 
     {
-        public CreateLunchMenuResponse(bool result, List<string> messages) : base(result, messages)
+        public CreateLunchMenuResponse(bool result, List<string> messages, int? menuId) : base(result, messages)
         {
-
+            MenuId = MenuId; 
         }
+
+        public int? MenuId { get; private set; }
     }
 }

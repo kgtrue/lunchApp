@@ -7,26 +7,24 @@ using System.Text;
 using System.Linq;
 namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
 {
-    public class LunchMenuRepo : IBaseRepo, ILunchMenuRepo
+    public class LunchMenuRepo :  ILunchMenuRepo
     {
-        private readonly DocumentStore context;
-        public LunchMenuRepo(DocumentStore context)
+        private readonly IDocumentStore documentStore;
+        public LunchMenuRepo(IDocumentStore documentStore)
         {
-            this.context = context;
-        }
-
-        public DocumentStore Context => this.context;
+            this.documentStore = documentStore;
+        }       
 
         public LunchMenu GetById(int id)
         {
-            using var session = context.OpenSession();
+            using var session = documentStore.OpenSession();
             var entity = session.Query<LunchMenu>().Single(x => x.Id == id);
             return entity;
         }
 
         public void SaveUpdate(LunchMenu lunchMenu)
         {
-            using var session = context.OpenSession();
+            using var session = documentStore.OpenSession();
             var entity = session.Query<LunchMenu>().Single(x => x.Id == lunchMenu.Id);
 
             if (entity == null)

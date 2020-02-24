@@ -17,8 +17,6 @@ namespace LunchApp.Inferstructure.External.Menu.Api
         {
             this.httpClient = httpClient;
         }
-
-
         public async Task<IMenu> GetByDate(DateTime date)
         {
             try

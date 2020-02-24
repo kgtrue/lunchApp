@@ -5,7 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LunchApp.Core\LunchApp.Core.csproj" />
+    <ProjectReference Include="..\LunchApp.Inferstructure.External.Menu.Api\LunchApp.Inferstructure.External.Menu.Api.csproj" />
+    <ProjectReference Include="..\LunchApp.Inferstructure.Persistence.HybridDb\LunchApp.Inferstructure.Persistence.HybridDb.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HybridDb">
+      <HintPath>..\..\lib\HybridDb\netstandard2.1\HybridDb.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 

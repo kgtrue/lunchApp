@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using LunchApp.Core.Entity;
+using System.Threading.Tasks;
 
 namespace LunchApp.Core.Interactors
 {
-    public class CreateLunchMenuInteractor : IRequestHandler<CreateLunchMenuRequest, CreateLunchMenuResponse>
+    public class CreateLunchMenuInteractor : IRequestHandler<CreateLunchMenuRequest, Task<CreateLunchMenuResponse>>
     {
         private readonly ILunchMenuRepo lunchMenuRepo;
         private readonly ILunchMenuLookupRepo lunchMenuLookupRepo;
@@ -19,11 +20,11 @@ namespace LunchApp.Core.Interactors
             this.lunchMenuLookupRepo = lunchMenuLookupRepo;
         }
 
-        public CreateLunchMenuResponse Handle(CreateLunchMenuRequest message)
+        public async Task<CreateLunchMenuResponse> Handle(CreateLunchMenuRequest message)
         {
             var errors = new List<string>();
-            var lunchMenuLookup = lunchMenuLookupRepo.GetByDate(message.Date).Result;
-
+            var lunchMenuLookup = await lunchMenuLookupRepo.GetByDate(message.Date);
+            int? menuId = null;
             if (lunchMenuLookup != null)
             {
                 var lunchMenu = new LunchMenu(lunchMenuLookup.Date);
@@ -35,13 +36,14 @@ namespace LunchApp.Core.Interactors
                     }
                 }
                 lunchMenuRepo.SaveUpdate(lunchMenu);
+                menuId = lunchMenu.Id; 
             }
             else
             {
                 errors.Add($"No menu exists on { message.Date.ToString("ddMMyy")}");
             }
 
-            return new CreateLunchMenuResponse(!errors.Any(), errors);
+            return new CreateLunchMenuResponse(!errors.Any(), errors, menuId);
         }
     }
 }
