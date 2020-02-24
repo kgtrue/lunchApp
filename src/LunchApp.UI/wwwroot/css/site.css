@@ -128,3 +128,9 @@ body {
     .item.list-group-item:after {
         clear: both;
     }
+
+.ratingWraper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}

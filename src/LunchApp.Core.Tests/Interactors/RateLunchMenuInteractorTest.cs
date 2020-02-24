@@ -11,18 +11,16 @@ namespace LunchApp.Core.Tests.Interactors
 {
     public class RateLunchMenuInteractorTest
     {
-        private readonly Mock<ILunchMenuRepo> lunchMenuRepo = new Mock<ILunchMenuRepo>();
-        private readonly Mock<ILunchMenuReviewRepo> lunchMenuReviewRepo = new Mock<ILunchMenuReviewRepo>();
+        private readonly Mock<IMenuRepo> lunchMenuRepo = new Mock<IMenuRepo>();
         public RateLunchMenuInteractorTest()
         {
-            lunchMenuRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(new LunchMenu(DateTime.Now) { });
-            lunchMenuReviewRepo.Setup(x => x.SaveUpdate(It.IsAny<LunchMenuReview>())).Throws<LunchMenureviewSaveUpdateException>();
+            lunchMenuRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(new Menu(DateTime.Now) { });
         }
 
-        public void TestRateLunchMenuInteractorFail(int menuId, List<(int DishId, uint ReviewScore)> reviews)
+        public void TestRateLunchMenuInteractorFail(int menuId, List<(int DishId, int ReviewScore)> reviews)
         {
-            var interactor = new RateLunchMenuInteractor(lunchMenuRepo.Object, lunchMenuReviewRepo.Object);
-            var response = interactor.Handle(new Contracts.Dtos.RateLunchMenuRequest(menuId ,reviews));
+            var interactor = new RateMenuInteractor(lunchMenuRepo.Object);
+            var response = interactor.Handle(new Contracts.Dtos.RateMenuRequest(menuId ,reviews));
             Assert.False(response.Result);
         }
     }

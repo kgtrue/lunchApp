@@ -11,7 +11,7 @@ namespace LunchApp.Core.Tests.Entity
         [Fact]
         public void MenuNullCheck()
         {
-            Assert.Throws<NullReferenceException>(()=> new LunchDish(null, "")) ;
+            Assert.Throws<NullReferenceException>(()=> new Course(null, "")) ;
         }             
     }
 }

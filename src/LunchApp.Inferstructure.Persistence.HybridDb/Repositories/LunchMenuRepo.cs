@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
 {
-    public class LunchMenuRepo : ILunchMenuRepo
+    public class LunchMenuRepo : IMenuRepo
     {
         private readonly IDocumentStore documentStore;
         public LunchMenuRepo(IDocumentStore documentStore)
@@ -17,17 +17,17 @@ namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
             this.documentStore = documentStore;
         }
 
-        public async Task<LunchMenu> GetById(int id)
-        {
-            using var session = documentStore.OpenSession();
-            var entity = session.Query<LunchMenu>().Single(x => x.Id == id);
-            return entity;
+        public Menu GetById(int id)
+        {            
+                 using var session = documentStore.OpenSession();
+                 var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == id);
+                 return entity;
         }
 
-        public void SaveUpdate(LunchMenu lunchMenu)
+        public void SaveUpdate(Menu lunchMenu)
         {
             using var session = documentStore.OpenSession();
-            var entity = session.Query<LunchMenu>().SingleOrDefault(x => x.Id == lunchMenu.Id);
+            var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == lunchMenu.Id);
 
             if (entity == null)
             {

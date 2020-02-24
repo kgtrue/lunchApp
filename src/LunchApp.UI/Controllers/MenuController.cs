@@ -11,38 +11,37 @@ namespace LunchApp.UI.Controllers
 {
     public class MenuController : Controller
     {
-        private readonly ILunchMenuRepo lunchMenuRepo;
-        private readonly ILunchMenuReviewRepo lunchMenuReviewRepo;
+        private readonly IMenuRepo lunchMenuRepo;
         private readonly ILunchMenuLookupRepo lunchMenuLookupRepo;
-        public MenuController(ILunchMenuRepo lunchMenuRepo, ILunchMenuLookupRepo lunchMenuLookupRepo, ILunchMenuReviewRepo lunchMenuReviewRepo)
+        public MenuController(IMenuRepo lunchMenuRepo, ILunchMenuLookupRepo lunchMenuLookupRepo)
         {
             this.lunchMenuRepo = lunchMenuRepo;
-            this.lunchMenuReviewRepo = lunchMenuReviewRepo;
             this.lunchMenuLookupRepo = lunchMenuLookupRepo;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var model = new MenuViewModel() { SelectedDate = DateTime.Now.Date };
-            var menu = await lunchMenuRepo.GetById(DateTime.Now.Date.GetHashCode());
+            var menu = lunchMenuRepo.GetById(DateTime.Now.Date.GetHashCode());
 
             if (menu == null)
             {
-                var interactor = new CreateLunchMenuInteractor(lunchMenuRepo, lunchMenuLookupRepo);
-                var response = await interactor.Handle(new Core.Contracts.Dtos.CreateLunchMenuRequest(DateTime.Now.Date));
+                var interactor = new CreateMenuInteractor(lunchMenuRepo, lunchMenuLookupRepo);
+                var response = interactor.Handle(new Core.Contracts.Dtos.CreateMenuRequest(DateTime.Now.Date));
                 if (response.Result)
-                    menu = await lunchMenuRepo.GetById(response.MenuId.Value);
+                    menu = lunchMenuRepo.GetById(response.MenuId.Value);
 
             }
             if (menu != null)
             {
                 model.Id = menu.Id;
-                model.Courses = menu.LunchDishes.Select(ld =>
+                model.MenuRating = 0;
+                model.Courses = menu.Courses.Select(ld =>
                             new CourseViewModel()
                             {
                                 Id = ld.Id,
                                 Name = ld.Name,
-                                ReviewScore = 0
+                                ReviewScoreAverage = 0
                             }
                         ).ToList();
             }
@@ -50,16 +49,24 @@ namespace LunchApp.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(MenuViewModel model)
+        public IActionResult Index(MenuViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var interactor = new RateLunchMenuInteractor(lunchMenuRepo, lunchMenuReviewRepo);
-                var response = await interactor.Handle(new Core.Contracts.Dtos.RateLunchMenuRequest(model.Id, model.Courses.Select(c => (c.Id, c.ReviewScore)).ToList()));
+                var interactor = new RateMenuInteractor(lunchMenuRepo);
+                var ratings = model.Courses.Select(c => (c.Id, c.ReviewScore)).ToList();
+                var response = interactor.Handle(new Core.Contracts.Dtos.RateMenuRequest(model.Id, ratings));
                 if (response.Result)
                 {
                     model.Errors.Clear();
                 }
+
+                model.MenuRating = 0;
+                foreach (var cource in model.Courses)
+                {
+                    cource.ReviewScoreAverage = 0;
+                }
+
             }
             return View(model);
         }

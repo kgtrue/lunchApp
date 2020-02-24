@@ -3,6 +3,7 @@
 
 // Write your JavaScript code.
 
-$('.menu-course-rating').on("change mousemove", function () {
-    $(this).next().html($(this).val());
+$('.course-rating').on("change", function () {
+    var ratingValue = $(this).val();
+    $(this).next().val(ratingValue);
 });
