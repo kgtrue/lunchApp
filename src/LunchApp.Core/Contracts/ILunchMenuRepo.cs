@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LunchApp.Core.Contracts
 {
     public interface ILunchMenuRepo
     {
-        LunchMenu GetById(int id);      
+        Task<LunchMenu> GetById(int id);      
         void SaveUpdate(LunchMenu lunchMenu);
     }
 }

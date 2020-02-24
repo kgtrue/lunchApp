@@ -5,17 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
+
 namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
 {
-    public class LunchMenuRepo :  ILunchMenuRepo
+    public class LunchMenuRepo : ILunchMenuRepo
     {
         private readonly IDocumentStore documentStore;
         public LunchMenuRepo(IDocumentStore documentStore)
         {
             this.documentStore = documentStore;
-        }       
+        }
 
-        public LunchMenu GetById(int id)
+        public async Task<LunchMenu> GetById(int id)
         {
             using var session = documentStore.OpenSession();
             var entity = session.Query<LunchMenu>().Single(x => x.Id == id);
@@ -25,7 +27,7 @@ namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
         public void SaveUpdate(LunchMenu lunchMenu)
         {
             using var session = documentStore.OpenSession();
-            var entity = session.Query<LunchMenu>().Single(x => x.Id == lunchMenu.Id);
+            var entity = session.Query<LunchMenu>().SingleOrDefault(x => x.Id == lunchMenu.Id);
 
             if (entity == null)
             {

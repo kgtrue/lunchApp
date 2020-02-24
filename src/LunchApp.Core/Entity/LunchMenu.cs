@@ -25,6 +25,9 @@ namespace LunchApp.Core.Entity
             LunchDishes.Add(dish);
             return true;
         }
-        public double MenuRating => LunchMenuReviews.Average(x => x.MenuReviewScore);
+        public double MenuRating => LunchMenuReviews
+            .Select(mr=>mr.MenuReviewScore)
+            .DefaultIfEmpty(0)
+            .Average();
     }
 }

@@ -7,22 +7,24 @@
 
 <h1>Index</h1>
 
-<div>
-    <h4>MenuViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SelectedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SelectedDate)
-        </dd>
-    </dl>
-</div>
-<div>
-    <partial name="_CourselistPartial" model="@Model.Courses" />
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+<form method="post">
+    <div>
+        <h4>MenuViewModel</h4>
+        <hr />
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.SelectedDate)
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SelectedDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SelectedDate)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.Courses, "Courselist")
+    </div>
+    <button type="submit" class="btn btn-primary">Submit review</button>
+</form>
+

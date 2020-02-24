@@ -20,7 +20,7 @@ namespace LunchApp.Core.Entity
         public double MenuReviewScore => LunchMenuDishReviews.Average(x => x.ReviewScore);
         public IList<LunchDishReview> LunchMenuDishReviews { get; private set; }
 
-        public bool AddReview(int lunchDishId, uint reviewScore)
+        public bool AddReview(int lunchDishId, int reviewScore)
         {
             if (!LunchMenu.LunchDishes.Any(ld => ld.Id == lunchDishId))
                 return false;

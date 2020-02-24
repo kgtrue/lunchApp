@@ -31,7 +31,7 @@ namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
         public void SaveUpdate(LunchMenuReview lunchMenu)
         {
             using var session = documentStore.OpenSession();
-            var entity = session.Query<LunchMenuReview>().Single(x => x.Id == lunchMenu.Id);
+            var entity = session.Query<LunchMenuReview>().SingleOrDefault(x => x.Id == lunchMenu.Id);
 
             if (entity == null)
             {

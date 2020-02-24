@@ -21,8 +21,10 @@ namespace LunchApp.Core.Entity
         public LunchMenu LunchMenu { get; private set; }
 
         public double LunchDishRating => LunchMenu.LunchMenuReviews
-            .SelectMany(x => x.LunchMenuDishReviews
-            .Where(d => d.LunchDish.Id == this.Id))
-            .Average(x => x.ReviewScore);  
+            .SelectMany(x => x.LunchMenuDishReviews)
+            .Where(d => d.LunchDish.Id == this.Id)
+            .Select(s=> s.ReviewScore) 
+            .DefaultIfEmpty(0) 
+            .Average();  
     }
 }

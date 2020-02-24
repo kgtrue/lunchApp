@@ -28,6 +28,12 @@ namespace LunchApp.Core.Interactors
             if (lunchMenuLookup != null)
             {
                 var lunchMenu = new LunchMenu(lunchMenuLookup.Date);
+                var exsistingMenu = lunchMenuRepo.GetById(lunchMenu.Id);
+                
+                if(exsistingMenu!= null){
+                    errors.Add($"Menu already exists.");
+                }                
+
                 foreach (var courceLookup in lunchMenuLookup.Course)
                 {
                     if (!lunchMenu.AddLunchMenuDish(courceLookup))
@@ -35,8 +41,12 @@ namespace LunchApp.Core.Interactors
                         errors.Add($"The dish { courceLookup} can not be added to menu.");
                     }
                 }
-                lunchMenuRepo.SaveUpdate(lunchMenu);
-                menuId = lunchMenu.Id; 
+
+                if (!errors.Any())
+                {
+                    lunchMenuRepo.SaveUpdate(lunchMenu);
+                    menuId = lunchMenu.Id;
+                }
             }
             else
             {
