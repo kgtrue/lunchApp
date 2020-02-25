@@ -20,7 +20,7 @@ namespace LunchApp.Core.Tests.Interactors
         public void TestRateLunchMenuInteractorFail(int menuId, List<(int DishId, int ReviewScore)> reviews)
         {
             var interactor = new RateMenuInteractor(lunchMenuRepo.Object);
-            var response = interactor.Handle(new Contracts.Dtos.RateMenuRequest(menuId ,reviews));
+            var response = interactor.Handle(new Contracts.Dtos.RateMenuRequest(menuId, 1, reviews));
             Assert.False(response.Result);
         }
     }

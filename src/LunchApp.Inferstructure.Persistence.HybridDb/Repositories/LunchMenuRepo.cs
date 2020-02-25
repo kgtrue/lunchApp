@@ -18,27 +18,54 @@ namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
         }
 
         public Menu GetById(int id)
-        {            
-                 using var session = documentStore.OpenSession();
-                 var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == id);
-                 return entity;
-        }
-
-        public void SaveUpdate(Menu lunchMenu)
         {
             using var session = documentStore.OpenSession();
-            var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == lunchMenu.Id);
+            var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == id);
+            return entity;
+        }
+
+        public void CopyValues<T>(T target, T source)
+        {
+            Type t = typeof(T);
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(source, null);
+                if (value != null)
+                    prop.SetValue(target, value, null);
+            }
+        }
+
+        public void SaveUpdate(Menu menu)
+        {
+            using var session = documentStore.OpenSession();
+            var entity = session.Query<Menu>().SingleOrDefault(x => x.Id == menu.Id);
 
             if (entity == null)
             {
-                session.Store(lunchMenu);
+                entity = menu;
+                session.Store(entity);
             }
-            else
+
+            if (!entity.Equals(menu))
             {
-                entity = lunchMenu;
+                CopyValues(entity, menu);
             }
 
             session.SaveChanges();
         }
+
+        public interface ICopy<in TFromCopyIn, in TToCopyIn, out TCoptOut>
+        {
+            TCoptOut Copy(TFromCopyIn from, TToCopyIn to);
+        }
+        //public class Map : ICopy<Menu, Menu, Menu>
+        //{
+        //    public Menu Copy(Menu from, Menu to)
+        //    {
+        //        from.
+        //    }
+        //}
+
     }
 }

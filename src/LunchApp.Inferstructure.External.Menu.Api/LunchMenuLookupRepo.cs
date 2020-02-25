@@ -28,7 +28,7 @@ namespace LunchApp.Inferstructure.External.Menu.Api
             }
             catch (Exception ex)
             {
-                throw new RepoException(ex.Message, ex); 
+                return null;
             }
           
         }

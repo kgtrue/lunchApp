@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LunchApp.Core.Tests.Entity
 {
-    public class LunchDishTests
+    public class CourseTests
     {
         [Fact]
         public void MenuNullCheck()
