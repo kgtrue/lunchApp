@@ -14,7 +14,8 @@ namespace LunchApp.UI.Models
             Courses = new List<CourseViewModel>();
             Errors = new List<string>();
         }
-
+        [DisplayName("Total number of menu reviews")]
+        public int NumberOfReviews { get; set; }
         public int ReviewToken { get; set; }
         public int? Id { get; set; }
         [DisplayName("Dato")]

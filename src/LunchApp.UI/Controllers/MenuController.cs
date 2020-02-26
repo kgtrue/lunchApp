@@ -13,10 +13,12 @@ namespace LunchApp.UI.Controllers
     {
         private readonly IMenuRepo lunchMenuRepo;
         private readonly ILunchMenuLookupRepo lunchMenuLookupRepo;
-        public MenuController(IMenuRepo lunchMenuRepo, ILunchMenuLookupRepo lunchMenuLookupRepo)
+        private readonly IReviewRepo reviewRepo;
+        public MenuController(IMenuRepo lunchMenuRepo, ILunchMenuLookupRepo lunchMenuLookupRepo, IReviewRepo reviewRepo)
         {
             this.lunchMenuRepo = lunchMenuRepo;
             this.lunchMenuLookupRepo = lunchMenuLookupRepo;
+            this.reviewRepo = reviewRepo; 
         }
 
         public IActionResult Index()
@@ -42,6 +44,7 @@ namespace LunchApp.UI.Controllers
             }
             if (menu != null)
             {
+                model.NumberOfReviews = reviewRepo.GetAllMenuReviews(menu.Id).Count(); 
                 model.Id = menu.Id;
                 model.MenuRating = menu.AverageMenuReviewScore;
                 model.Courses = menu.Courses.Select(ld =>

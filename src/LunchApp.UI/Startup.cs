@@ -41,6 +41,7 @@ namespace LunchApp.UI
                 service.BaseAddress = new Uri(Configuration["MenuApiUrl"]);
             });
             services.AddScoped<IMenuRepo, LunchMenuRepo>();
+            services.AddScoped<IReviewRepo, ReviewRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
