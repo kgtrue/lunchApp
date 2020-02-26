@@ -21,14 +21,16 @@ namespace LunchApp.UI.Controllers
 
         public IActionResult Index()
         {
-            var model = new MenuViewModel() { SelectedDate = DateTime.Now.Date, ReviewToken = DateTime.Now.GetHashCode() };
-            var menu = lunchMenuRepo.GetById(DateTime.Now.Date.GetHashCode());
+            var date = DateTime.Now.Date;
+            var reviewToken = DateTime.Now.GetHashCode();
+            var model = new MenuViewModel() { SelectedDate = date, ReviewToken = reviewToken.GetHashCode() };
+            var menu = lunchMenuRepo.GetById(date.GetHashCode());
 
 
             if (menu == null)
             {
                 var interactor = new CreateMenuInteractor(lunchMenuRepo, lunchMenuLookupRepo);
-                var response = interactor.Handle(new Core.Contracts.Dtos.CreateMenuRequest(DateTime.Now.Date));
+                var response = interactor.Handle(new Core.Contracts.Dtos.CreateMenuRequest(date));
                 if (response.Result)
                 {
                     menu = lunchMenuRepo.GetById(response.MenuId.Value);
