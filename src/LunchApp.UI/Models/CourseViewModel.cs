@@ -15,6 +15,7 @@ namespace LunchApp.UI.Models
         [Range(0, 5)]
         public int ReviewScore { get; set; }
         [DisplayName("Course rating")]
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public double ReviewScoreAverage { get; set; }
     }
 }

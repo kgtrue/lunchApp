@@ -1,11 +1,13 @@
 ﻿@model System.Int32
-
-<div class="d-flex justify-content-center my-4 pt-3">
-    <i class="fas fa-thumbs-down"></i>
-    <div class="w-75">
-        <input class="custom-range m -1 course-rating" type="range" min="0" max="5" value="@Model" />
-        @Html.HiddenFor(model => model)
-    </div><i class="fas fa-thumbs-up"></i>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">0</span>
+    </div>
+    <input class="custom-range form-control course-rating" type="range" min="0" max="5" value="@Model" />
+    @Html.HiddenFor(model => model)
+    <div class="input-group-append">
+        <span class="input-group-text">5</span>
+    </div>
 </div>
 
 
