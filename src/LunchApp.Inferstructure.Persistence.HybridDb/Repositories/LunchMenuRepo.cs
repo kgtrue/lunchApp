@@ -54,18 +54,5 @@ namespace LunchApp.Inferstructure.Persistence.HybridDb.Repositories
 
             session.SaveChanges();
         }
-
-        public interface ICopy<in TFromCopyIn, in TToCopyIn, out TCoptOut>
-        {
-            TCoptOut Copy(TFromCopyIn from, TToCopyIn to);
-        }
-        //public class Map : ICopy<Menu, Menu, Menu>
-        //{
-        //    public Menu Copy(Menu from, Menu to)
-        //    {
-        //        from.
-        //    }
-        //}
-
     }
 }
