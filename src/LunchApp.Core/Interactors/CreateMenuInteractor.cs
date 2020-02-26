@@ -25,9 +25,9 @@ namespace LunchApp.Core.Interactors
             var errors = new List<string>();
             var lunchMenuLookup = lunchMenuLookupRepo.GetByDate(message.Date).Result;
             int? menuId = null;
-            if (lunchMenuLookup != null)
+            if (lunchMenuLookup.Result)
             {
-                var lunchMenu = new Menu(lunchMenuLookup.Date);
+                var lunchMenu = new Menu(lunchMenuLookup.Menu.Date);
                 var exsistingMenu = lunchMenuRepo.GetById(lunchMenu.Id);
 
                 if (exsistingMenu != null)
@@ -35,7 +35,7 @@ namespace LunchApp.Core.Interactors
                     errors.Add($"Menu already exists.");
                 }
 
-                foreach (var courceLookup in lunchMenuLookup.Course)
+                foreach (var courceLookup in lunchMenuLookup.Menu.Course)
                 {
                     if (!lunchMenu.AddMenuCourse(courceLookup))
                     {

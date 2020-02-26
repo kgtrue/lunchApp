@@ -9,6 +9,6 @@ namespace LunchApp.Core.Contracts
 {
     public interface ILunchMenuLookupRepo
     {
-        Task<IMenu> GetByDate(DateTime date);
+        Task<IMenuResponse> GetByDate(DateTime date);
     }
 }

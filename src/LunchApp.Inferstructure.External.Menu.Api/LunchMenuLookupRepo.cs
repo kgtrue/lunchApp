@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Xml.Serialization;
+using LunchApp.Inferstructure.External.Menu.Api.Dtos;
 
 namespace LunchApp.Inferstructure.External.Menu.Api
 {
@@ -17,20 +18,21 @@ namespace LunchApp.Inferstructure.External.Menu.Api
         {
             this.httpClient = httpClient;
         }
-        public async Task<IMenu> GetByDate(DateTime date)
+        public async Task<IMenuResponse> GetByDate(DateTime date)
         {
+            var menuResponse = new MenuResponse();
             try
             {
-                var mySerializer = new XmlSerializer(typeof(Entity.Menu));
+                var mySerializer = new XmlSerializer(typeof(Entity.ExternalMenu));
                 var response = await httpClient.GetStreamAsync($"/menu/{date.ToString("ddMMyy")}");
-                var result = (Entity.Menu)mySerializer.Deserialize(response);
-                return result;
+                var result = (Entity.ExternalMenu)mySerializer.Deserialize(response);
+                return new MenuResponse() { Menu = result, Result = true };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return null;
+                return new MenuResponse();
             }
-          
+
         }
     }
 }

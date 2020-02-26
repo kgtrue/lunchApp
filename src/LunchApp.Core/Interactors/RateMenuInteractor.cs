@@ -24,7 +24,7 @@ namespace LunchApp.Core.Interactors
             {
                 if (!lunchMenu.AddUpdateReview(review.courseId, message.RevierwToken, review.reviewScore))
                 {
-                    errors.Add($"Unable to register review for {lunchMenu.Courses.FirstOrDefault(c => c.Id == review.courseId).Name }");
+                    errors.Add($"Unable to register review for cource with id: {review.courseId} and score {review.reviewScore}");
                 }
             });
             menuRepo.SaveUpdate(lunchMenu);

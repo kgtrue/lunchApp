@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace LunchApp.Inferstructure.External.Menu.Api.Entity
 {
     [XmlRoot("Menu")]
-    public class Menu : IMenu
+    public class ExternalMenu : IMenu
     {
         [XmlAttribute("Date")]
         public DateTime Date { get; set; }
